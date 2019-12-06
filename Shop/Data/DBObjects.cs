@@ -20,7 +20,7 @@ namespace Shop.Data
                  
                content.AddRange(
                     new Vegetables
-                    {//
+                    {
                         name = "BELL PEPPER",
                         img = "/img/product-1.jpg",
                         price = 80,
@@ -97,7 +97,7 @@ namespace Shop.Data
                            available = true,
                            Category = Categories["Juice"]
                        }
-
+                       
                     ) ;
             }
 

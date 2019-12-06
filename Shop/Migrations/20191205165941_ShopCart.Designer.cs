@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Data;
 
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    partial class AppDBContentModelSnapshot : ModelSnapshot
+    [Migration("20191205165941_ShopCart")]
+    partial class ShopCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,58 +34,6 @@ namespace Shop.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("Shop.Data.Models.Order", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("city");
-
-                    b.Property<int>("code");
-
-                    b.Property<string>("country");
-
-                    b.Property<string>("email");
-
-                    b.Property<string>("lastname");
-
-                    b.Property<string>("name");
-
-                    b.Property<string>("numberstreet");
-
-                    b.Property<DateTime>("orderTime");
-
-                    b.Property<string>("phone");
-
-                    b.Property<string>("street");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("Shop.Data.Models.OrderDeteil", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("orderId");
-
-                    b.Property<long>("price");
-
-                    b.Property<int>("vegetablesId");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("orderId");
-
-                    b.HasIndex("vegetablesId");
-
-                    b.ToTable("OrderDeteil");
                 });
 
             modelBuilder.Entity("Shop.Data.Models.ShopCartItem", b =>
@@ -128,19 +78,6 @@ namespace Shop.Migrations
                     b.HasIndex("categoryID");
 
                     b.ToTable("Vegetables");
-                });
-
-            modelBuilder.Entity("Shop.Data.Models.OrderDeteil", b =>
-                {
-                    b.HasOne("Shop.Data.Models.Order", "order")
-                        .WithMany("orderDeteils")
-                        .HasForeignKey("orderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Shop.Data.Models.Vegetables", "vegetables")
-                        .WithMany()
-                        .HasForeignKey("vegetablesId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Shop.Data.Models.ShopCartItem", b =>

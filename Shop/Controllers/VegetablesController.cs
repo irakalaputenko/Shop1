@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Data.interfaces;
+using Shop.Data.Models;
 using Shop.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,54 @@ namespace Shop.Controllers
             _allCategories = iVegetablesCat;
         }
 
-        public ViewResult List()
+        [Route("Vegetables/List")]
+        [Route("Vegetables/List/{category}")]
+        public ViewResult List(string category)
         {
-            ViewBag.Title = "Page with Vegetables";
-            VegetablesListViewModel obj = new VegetablesListViewModel();
-            obj.allVegetables = _allVegetables.Vegetables;
-            obj.vegetablessCategory = "VEGETABLES";
-            return View(obj);
+            string _category = category;
+            IEnumerable<Vegetables> vegetables = null;
+            string vegetablesCategory = "";
+            if (string.IsNullOrEmpty(category))
+            {
+                vegetables = _allVegetables.Vegetables.OrderBy(i => i.id);
+            } else
+            {
+                if(string.Equals("vegetables", category, StringComparison.OrdinalIgnoreCase))
+                {
+                    vegetables = _allVegetables.Vegetables.Where(i => i.Category.categoryName.Equals(" Vegetables")).OrderBy(i => i.id);
+                    vegetablesCategory = _category;
+                }
+                else if (string.Equals("fruits", category, StringComparison.OrdinalIgnoreCase))
+                    {
+                        vegetables = _allVegetables.Vegetables.Where(i => i.Category.categoryName.Equals("Fruits")).OrderBy(i => i.id);
+                        vegetablesCategory = _category;
+                    }
+                    else if (string.Equals("juice", category, StringComparison.OrdinalIgnoreCase))
+                        {
+                            vegetables = _allVegetables.Vegetables.Where(i => i.Category.categoryName.Equals("Juice")).OrderBy(i => i.id);
+                            vegetablesCategory = _category;
+                        }
+                        else if (string.Equals("dried", category, StringComparison.OrdinalIgnoreCase))
+                        {
+                            vegetables = _allVegetables.Vegetables.Where(i => i.Category.categoryName.Equals("Dried")).OrderBy(i => i.id);
+                            vegetablesCategory = _category;
+                        }
+                        
+                    
+                   
+
+                   
+               
+            }
+            var vegetablesObj = new VegetablesListViewModel
+            {
+                allVegetables = vegetables,
+                vegetablessCategory = vegetablesCategory
+            };
+
+            ViewBag.Title = "Page with Goods";
+            
+            return View(vegetablesObj);
         }
 
     }
